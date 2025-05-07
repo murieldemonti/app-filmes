@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import MovieList from './components/MovieList';
 import './App.css';
 
 function App() {
+  const [query, setQuery] = useState('');
+  const [movies, setMovies] = useState([]);
+
+  const handleSearch = async () => {
+    if (query.trim() === '') return;
+    try {
+      const response = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
+      const data = await response.json();
+      setMovies(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <h1>TV Shows Search</h1>
+        <input
+            type="text"
+            value={query}
+            placeholder="Search for a show..."
+            onChange={(e) => setQuery(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+        <MovieList movies={movies} />
+      </div>
   );
 }
 
