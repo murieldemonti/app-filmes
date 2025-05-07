@@ -1,23 +1,23 @@
 import React from 'react';
 
-const MovieList = ({ movies }) => {
-    if (!movies || movies.length === 0) {
-        return <p>No results found.</p>;
-    }
-
+function MovieList({ movies }) {
     return (
-        <div className="movie-list">
-            {movies.map((movie) => (
-                <div key={movie.show.id} className="movie-card">
-                    <h2>{movie.show.name}</h2>
-                    {movie.show.image && (
-                        <img src={movie.show.image.medium} alt={movie.show.name} />
+        <div>
+            {movies.map((item) => (
+                <div key={item.show.id} style={{ marginBottom: '20px' }}>
+                    <h2>{item.show.name}</h2>
+                    {item.show.image && (
+                        <img
+                            src={item.show.image.medium}
+                            alt={item.show.name}
+                            style={{ width: '150px' }}
+                        />
                     )}
-                    <div dangerouslySetInnerHTML={{ __html: movie.show.summary }} />
+                    <div dangerouslySetInnerHTML={{ __html: item.show.summary }} />
                 </div>
             ))}
         </div>
     );
-};
+}
 
 export default MovieList;
